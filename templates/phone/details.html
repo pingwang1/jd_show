@@ -1,0 +1,123 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<script src="{% static 'js/jquery.min.js' %}" type="application/javascript"></script>
+<script src="{% static 'js/bootstrap.min.js' %}" type="application/javascript"></script>
+<script src="{% static 'js/echarts.min.js' %}" type="application/javascript"></script>
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+<style type="text/css">
+    .tr0:hover{
+        background-color: #ccc;
+{#        background-color: #C4C1D4;#}
+    }
+    #table{
+        margin: 0 auto;
+        width: 1000px;
+    }
+    p{
+        color:#241C1C;
+        font-size: 17px;
+        font-family: "Tahoma";
+    }
+    #pages{
+        width: 300px;
+        height: 40px;
+        margin:0 auto;
+    }
+    /* 页面底部样式 */
+    .footer{
+        border-top:2px solid #222222;
+        margin:30px 0;
+    }
+
+    .foot_link{
+        text-align:center;
+        margin-top:30px;
+    }
+    .foot_link a,.foot_link span{
+        color:#4e4e4e;
+    }
+    .foot_link a:hover{
+        color:#ff8800
+    }
+    .foot_link span{
+        padding:0 10px
+    }
+    .footer p{
+        text-align:center;
+        margin-top:10px;
+    }
+</style>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% include 'phone/navbar.html' %}
+<br>
+<br>
+<br>
+<div class="row" style="width:1000px;margin: 0 auto;">
+    <div style="float:right;" class="col-md-4">
+        <div id="main" style="width: 300px;height:250px;"></div>
+        <script>
+            // 绘制图表。
+            echarts.init(document.getElementById('main')).setOption({
+                series: {
+                    type: 'pie',
+                    data: [
+                        {name: '好评', value: {{ i.good_commt_num }}},
+                        {name: '中评', value: {{ i.gen_commt_num }}},
+                        {name: '差评', value: {{ i.bad_commt_num }}},
+                        {name: '追加', value: {{ i.add_commt_num }}}
+                    ]
+                }
+            });
+        </script>
+    </div>
+    <div class="col-md-4" style="position:absolute;top:130px;">
+        <p>商品名称：{{ i.product_name }}</p>
+        <p>商品名称：{{ i.product_price }}</p>
+        <p>店铺名称：{{ i.shop_name }}</p>
+        <p>评论数:{{ i.comment_num }}</p>
+        <p>
+            好评:{{ i.good_commt_num }}
+            中评:{{ i.gen_commt_num }}
+            差评:{{ i.bad_commt_num }}
+            追加评论:{{ i.add_commt_num }}
+        </p>
+    </div>
+</div>
+
+<br>
+<table  class="table table-bordered" id="table">
+    <tr style="background-color: #B7D0CD">
+        <th style="width:100px;">用户名</th>
+        <th style="width:100px;">用户等级</th>
+        <th>评论内容</th>
+        <th>星级评论</th>
+        <th>日期</th>
+        <th style="width:100px;">点赞数</th>
+        <th style="width:100px;">手机颜色</th>
+
+    </tr>
+    {% for info in rows %}
+            <tr class="tr0">
+                <td>{{ info.user_name }}</td>
+                <td>{{ info.jd_level }}</td>
+                <td>{{ info.content }}</td>
+                <td>{{ info.comment_star }}</td>
+                <td>{{ info.push_date }}</td>
+                <td>{{ info.comment_good }}</td>
+                <td>{{ info.product_color }}</td>
+
+            </tr>
+    {% empty %}
+    <p>列表是空的</p>
+    {% endfor %}
+</table>
+{% include 'phone/paginator.html' %}
+
+{% include 'phone/bottom.html' %}
+</body>
+</html>

@@ -1,0 +1,49 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<script src="{% static 'js/jquery.min.js' %}" type="application/javascript"></script>
+<script src="{% static 'js/bootstrap.min.js' %}" type="application/javascript"></script>
+<script src="{% static 'js/echarts.min.js' %}" type="application/javascript"></script>
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+<style type="text/css">
+    *{
+        margin: 0;
+        padding: 0;
+    }
+
+</style>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body style="background-color: #C4C6BC">
+    <div class="row" style="height: 100px; background-color:#222222">
+        <div class="col-lg-3"><a href="/phone/index"><img src="{% static 'images/timg.png' %}" style="width:240px;height: 120px;padding-left:60px;"></a></div>
+        <div class="col-lg-6"><h3 style="color: #9D9D7E;line-height: 100px;">登录</h3></div>
+        <div class="col-lg-3"><h4 style="color: #9D9D7E;margin-top:65px;">没有账户？<a href="/phone/register">请先注册</a></h4></div>
+    </div>
+    <div style="margin: 0 auto;width: 500px;padding-top: 50px;padding-left: 170px;">
+			<h2>Welcome!</h2>
+    </div>
+    <div class="cont" style="width: 500px;margin: 0 auto;padding-top: 50px;">
+        <form method="post" accept-charset="utf-8">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="col-sm-2 control-label">用户名</label>
+                <div class="col-sm-10">
+                    <input name="user_name" type="text" class="form-control"><br>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">密码</label>
+                <div class="col-sm-10">
+                    <input name="password" type="password" class="form-control"><br>
+                </div>
+            </div>
+            <div style="width: 210px;margin: 0 auto">{{ cont }}</div>
+            <button type="submit" class="btn btn-default" style="width:100px;margin: 0 auto;position: relative;left: 190px;">Login</button>
+        </form>
+    </div>
+
+</body>
+</html>

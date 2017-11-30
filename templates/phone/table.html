@@ -1,0 +1,19 @@
+
+<table class="table table-bordered" id="table">
+    <tr style="background-color: #B7D0CD">
+        <th>商品ID</th>
+        <th>店铺名称</th>
+        <th>商品名称</th>
+        <th>商品价格</th>
+        <th>商品评论总数</th>
+    </tr>
+    {% for price in rows %}
+        <tr class="tr0">
+            <td><a href="/phone/{{ price.product_id }}">{{ price.product_id }}</a></td>
+            <td>{{ price.shop_name }}</td>
+            <td>{{ price.product_name }}</td>
+            <td>{{ price.product_price }}</td>
+            <td>{{ price.comment_num }}条</td>
+        </tr>
+    {% endfor %}
+</table>

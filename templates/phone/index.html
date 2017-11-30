@@ -1,0 +1,93 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<script src="{% static 'js/jquery.min.js' %}" type="application/javascript"></script>
+<script src="{% static 'js/bootstrap.min.js' %}" type="application/javascript"></script>
+<script src="{% static 'js/echarts.min.js' %}" type="application/javascript"></script>
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+<style type="text/css">
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    #pages{
+        width: 300px;
+        height: 40px;
+        margin:0 auto;
+
+    }
+    .tr0:hover{
+        background-color: #ccc;
+    }
+    #table{
+        width: 1200px;
+        margin: 0 auto;
+    }
+    a:link a{
+        text-decoration: none;
+    }
+    a:hover{
+        text-decoration: none;
+        background-color: #2aabd2;
+    }
+    /*解决高度塌陷*/
+    .clearfix:after{
+        content:"";
+        display: block;
+        clear:both;
+    }
+    /* 页面底部样式 */
+    .footer{
+        border-top:2px solid #222222;
+        margin:30px 0;
+    }
+
+    .foot_link{
+        text-align:center;
+        margin-top:30px;
+    }
+    .foot_link a,.foot_link span{
+        color:#4e4e4e;
+    }
+    .foot_link a:hover{
+        color:#ff8800
+    }
+    .foot_link span{
+        padding:0 10px
+    }
+    .footer p{
+        text-align:center;
+        margin-top:10px;
+    }
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+{#添加导航栏#}
+{% include 'phone/navbar.html' %}
+
+{% block content %}
+    <div class="row">
+{% include 'phone/echarts.html' %}
+<div class="col-md-3" style="top: 260px;left:340px;">
+    <h1>PhoneTop{{ count }}</h1>
+</div>
+    </div>
+{% endblock %}
+
+
+{% include 'phone/table.html' %}
+{% block page %}
+<div>
+    {% include 'phone/paginator.html' %}
+</div>
+{% endblock %}
+{% block end %}
+{% include 'phone/bottom.html' %}
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,150 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<script src="{% static 'js/jquery.min.js' %}" type="application/javascript"></script>
+<script src="{% static 'js/bootstrap.min.js' %}" type="application/javascript"></script>
+<script src="{% static 'js/echarts.min.js' %}" type="application/javascript"></script>
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+<style type="text/css">
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    h1{
+        position:relative;
+        left:600px;
+        top:280px;
+    }
+    #pages{
+        width: 300px;
+        height: 40px;
+        margin:0 auto;
+
+    }
+    .tr0:hover{
+        background-color: #ccc;
+    }
+    #table{
+        width: 1200px;
+        margin: 0 auto;
+    }
+    a:link a{
+        text-decoration: none;
+    }
+    a:hover{
+        text-decoration: none;
+        background-color: #2aabd2;
+    }
+    th{
+        text-align:center;
+    }
+    /* 页面底部样式 */
+    .footer{
+        border-top:2px solid #222222;
+        margin:30px 0;
+    }
+
+    .foot_link{
+        text-align:center;
+        margin-top:30px;
+    }
+    .foot_link a,.foot_link span{
+        color:#4e4e4e;
+    }
+    .foot_link a:hover{
+        color:#ff8800
+    }
+    .foot_link span{
+        padding:0 10px
+    }
+    .footer p{
+        text-align:center;
+        margin-top:10px;
+    }
+
+</style>
+{#//   '.del'    var obj = $(this).parent().parent().parent().children().eq(0).text(); #}
+<script type="text/javascript" >
+
+   $(document).ready(function(){
+    		$(document).on('click','.del',function(){
+				//获取textarea input内容
+                console.log(1)
+				var obj = $(this).parent().parent().children().eq(0).text();
+				console.log(obj);
+				//Ajax
+				var request=new XMLHttpRequest();
+				request.open("POST","http://192.168.245.129:8000/phone/delete/");
+				request.addEventListener("readystatechange",loadHandler);
+    			request.send(JSON.stringify({obj:obj}));
+    			function loadHandler(e) {
+            		e=e || window.event;
+                    //console.log(request.response);
+                    //清除之前ｔｒ０中的数据
+                    $('tr').remove('.tr0');
+                    //转换为js对象
+                    var obj=JSON.parse(request.response);
+                    console.log(obj);
+                    for(var i in obj){
+                        for(var j in obj[i]) {
+                            //console.log(obj[i][j]);
+                            $('table').append(
+                                '<tr class="tr0">' +
+                                '<td><a href="/phone/'+obj[i][j][0]+'">' + obj[i][j][0] + '</a></td>' +
+                                '<td>' + obj[i][j][1] + '</td>' +
+                                '<td>' + obj[i][j][2] + '</td>' +
+                                '<td>' + obj[i][j][3] + '</td>' +
+                                '<td>' + obj[i][j][4] + '条</td>' +
+                                '<td><button style="margin:0 auto;width:80%;height:100%;" class="del" type="submit">删除</button></td>' +
+                                '</tr>'
+                            );
+                        }
+                    }
+        		}
+			});
+    	});
+
+</script>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{#添加导航栏#}
+{% include 'phone/navbar.html' %}
+
+<div style="height: 100px"></div>
+
+<table class="table table-bordered" id="table">
+    <tr style="background-color: #B7D0CD" class="th">
+        <th>商品ID</th>
+        <th>店铺名称</th>
+        <th>商品名称</th>
+        <th>商品价格</th>
+        <th>商品评论总数</th>
+        <th style="width:100px;">操作</th>
+    </tr>
+    {% for info in alls %}
+
+        <tr class="tr0">
+            <td><a href="/phone/{{ info.product_id }}">{{ info.product_id }}</a></td>
+            <td>{{ info.shop_name }}</td>
+            <td>{{ info.product_name }}</td>
+            <td>{{ info.product_price }}</td>
+            <td>{{ info.comment_num }}条</td>
+            <td>
+                <button style="margin:0 auto;width:80%;height:100%;" class="del" type="submit">删除</button>
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+
+{#    <div>#}
+{#        {% include 'phone/paginator.html' %}#}
+{#    </div>#}
+
+{% include 'phone/bottom.html' %}
+
+</body>
+</html>
